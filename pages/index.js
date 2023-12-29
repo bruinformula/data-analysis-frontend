@@ -10,7 +10,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import parse from 'html-react-parser';
 
 
-const SERVER_ADDRESS = 'http://54.177.73.60:3001'
+const SERVER_ADDRESS = 'http://52.53.251.227:3000'
 
 
 export default function Home()
