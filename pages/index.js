@@ -42,7 +42,7 @@ export default function Home()
     {
         let plotData = 'accm,rotx'
         let extraArgs = prompt('extraArgs')
-        fetch(`${SERVER_ADDRESS}/api/plot?collection=${collectionName}&name=${name}&plot=${plotData}&extraArgs=${extraArgs}`,
+        fetch(`${SERVER_ADDRESS}/api/plot?collection=${collectionName}&name=${name}&plot=${plotData}&parser=mk8-data-parser`,
         {
             method: 'GET',
         })
@@ -55,7 +55,10 @@ export default function Home()
             // https://codingshower.com/how-to-execute-rendered-script-tags-with-dangerouslysetinnerhtml-in-react/
             console.log(res.plot)
             setPlot(<InnerHTML html={res.plot} />)
-        })
+        }).catch((error) =>
+        {
+            console.log(error)
+        });
     }
 
     // https://codesandbox.io/s/react-file-upload-parse-csv-09plq1?file=/src/App.tsx:633-710
