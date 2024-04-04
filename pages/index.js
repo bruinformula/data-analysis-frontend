@@ -8,6 +8,7 @@ import InnerHTML from 'dangerously-set-html-content'
 import Button from '@mui/material/Button'
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import parse from 'html-react-parser';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const SERVER_ADDRESS = 'http://52.53.251.227:3000'
@@ -117,6 +118,16 @@ export default function Home()
         fetchDataTree()
     }, [])
     //  className={styles.container}
+
+    const handleUploadClick = () => {
+        // Trigger the file input element
+        document.getElementById('fileInput').click();
+      };
+      const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        console.log('Uploaded file:', file);
+      };
+
     return (
         <div>
             <Head>
@@ -129,25 +140,35 @@ export default function Home()
             </nav>
 
             <main>
-                <span style={{ display: 'inline-block' }}>
-                    <LogSelector onSelect={onLogSelect} dataTree={dataTree}/>
-                </span>
-                <span style={{ display: 'inline-block' }}>
-                    {plot}
-                </span>
-                <Button
-                    component="label"
-                    variant="outlined"
-                    startIcon={<UploadFileIcon />}
-                    sx={{ marginRight: "1rem" }}
-                >
-                    Upload CSV
-                    <input type="file" accept=".csv" hidden onChange={handleFileUpload} />
-                </Button>
-            </main>
-            
-            
-        
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col">
+                            <LogSelector onSelect={onLogSelect} dataTree={dataTree}/>
+                            <Button
+                                component="label"
+                                variant="outlined"
+                                startIcon={<UploadFileIcon />}
+                                sx={{ marginRight: "1rem" }}
+                            >
+                                Upload CSV
+                            <input
+                                type="file"
+                                id="fileinput"
+                                accept=".csv"
+                                style={{display: 'none'}}
+                                onChange={handleFileUpload}
+                            />
+                            </Button>
+                        </div>
+                        <div class="col">
+                            {plot}
+                        </div>
+                        <div class="col">
+                            {plot}
+                        </div>
+                    </div>
+                </div>
+            </main>        
         </div>
     )
 }
@@ -204,3 +225,19 @@ export default function Home()
             }
         `}</style>
 */
+
+             {/* <span style={{ display: 'inline-block' }}>
+                    <LogSelector onSelect={onLogSelect} dataTree={dataTree}/>
+                </span>
+                <span style={{ display: 'inline-block' }}>
+                    {plot}
+                </span>
+                <Button
+                    component="label"
+                    variant="outlined"
+                    startIcon={<UploadFileIcon />}
+                    sx={{ marginRight: "1rem" }}
+                >
+                    Upload CSV
+                    <input type="file" accept=".csv" hidden onChange={handleFileUpload} />
+                </Button> */}
