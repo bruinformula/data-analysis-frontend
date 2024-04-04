@@ -2,12 +2,17 @@ import Head from 'next/head';
 import React, { useEffect, useState, useRef } from 'react'
 import AppBar from '../components/appbar';
 import LogSelector from '../components/log-selector'
+import MultipleSelectChip from '../components/multiselect'
 import styles from '../styles/Home.module.css';
 import Router from "next/router"
 import InnerHTML from 'dangerously-set-html-content'
 import Button from '@mui/material/Button'
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import parse from 'html-react-parser';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { TextField, Select, InputLabel, MenuItem, FormControl} from '@mui/material';
+
+
 
 
 const SERVER_ADDRESS = 'http://52.53.251.227:3000'
@@ -17,7 +22,17 @@ export default function Home()
 {
     const [dataTree, setDataTree] = useState({})
     const [plot, setPlot] = useState(<span>nothing here yet</span>)
+    const [dropdown, setDropdown] = useState('');
 
+
+    const handleDropdown = (event) => {
+      setDropdown(event.target.value);
+    };
+
+   
+
+    // asynch, fetches data from server: send get request to server
+    // once response is received, sets datatree state
     const fetchDataTree = async () => 
     {
         fetch(`${SERVER_ADDRESS}/api/datatree`,
@@ -38,6 +53,8 @@ export default function Home()
         })
     }
 
+    // triggered when item is selected from log, fetches plot data from server
+    // based on collection name and name; update plot state
     const onLogSelect = (collectionName, name) =>
     {
         let plotData = 'accm,rotx'
@@ -62,6 +79,9 @@ export default function Home()
     }
 
     // https://codesandbox.io/s/react-file-upload-parse-csv-09plq1?file=/src/App.tsx:633-710
+    // called when a file is uploaded, read the content by using FileReader
+    // prompts the user for various input, sends POST request with file content
+    // and input as JSON.
     const handleFileUpload = (event) =>
     {
         console.log('ya')
@@ -117,6 +137,8 @@ export default function Home()
         fetchDataTree()
     }, [])
     //  className={styles.container}
+    
+
     return (
         <div>
             <Head>
@@ -129,25 +151,78 @@ export default function Home()
             </nav>
 
             <main>
-                <span style={{ display: 'inline-block' }}>
-                    <LogSelector onSelect={onLogSelect} dataTree={dataTree}/>
-                </span>
-                <span style={{ display: 'inline-block' }}>
-                    {plot}
-                </span>
-                <Button
-                    component="label"
-                    variant="outlined"
-                    startIcon={<UploadFileIcon />}
-                    sx={{ marginRight: "1rem" }}
-                >
-                    Upload CSV
-                    <input type="file" accept=".csv" hidden onChange={handleFileUpload} />
-                </Button>
-            </main>
-            
-            
-        
+                <div className="container text-center">
+                    <div className="row">
+                        <div className="col">
+                            <LogSelector onSelect={onLogSelect} dataTree={dataTree}/>
+                            <Button
+                                component="label"
+                                variant="outlined"
+                                startIcon={<UploadFileIcon />}
+                                sx={{ marginRight: "1rem" }}
+                            >
+                                Upload CSV
+                            <input
+                                type="file"
+                                id="fileinput"
+                                accept=".csv"
+                                style={{display: 'none'}}
+                                onChange={handleFileUpload}
+                            />
+                            </Button>
+                        </div>
+                        <div className="col">
+                            <TextField
+                                label="Enter Title"
+                                variant="outlined"
+                                size="small"
+                                style={{ marginBottom: '8px' }}
+                            />
+                            <TextField
+                                label="Enter X-Axis Title"
+                                variant="outlined"
+                                size="small"
+                                style={{ marginBottom: '8px' }}
+                            />
+                            <TextField
+                                label="Enter Y-Axis Title"
+                                variant="outlined"
+                                size="small"
+                                style={{ marginBottom: '8px' }}
+                            />
+                            <TextField
+                                label="Enter X-Axis Units"
+                                variant="outlined"
+                                size="small"
+                                style={{ marginBottom: '8px' }}
+                            />
+                            <TextField
+                                label="Enter Y-Axis Units"
+                                variant="outlined"
+                                size="small"
+                                style={{ marginBottom: '8px' }}
+                            />
+                            <FormControl sx={{ m: 1, minWidth: 195 }}>
+                                <InputLabel id="select-label">Select</InputLabel>
+                                <Select
+                                    labelId="select-label"
+                                    value={dropdown}
+                                    label="Select"
+                                    onChange={handleDropdown}
+                                >
+                                    <MenuItem value={"mk-8-data-parser"}>mk-8-data-parser</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <MultipleSelectChip/>
+                            <Button variant="outlined"> Graph </Button>
+                        </div>
+                        <div className="col">
+                            {plot}
+                            <Button variant="outlined"> Download Graph </Button>
+                        </div>
+                    </div>
+                </div>
+            </main>        
         </div>
     )
 }
@@ -204,3 +279,19 @@ export default function Home()
             }
         `}</style>
 */
+
+             {/* <span style={{ display: 'inline-block' }}>
+                    <LogSelector onSelect={onLogSelect} dataTree={dataTree}/>
+                </span>
+                <span style={{ display: 'inline-block' }}>
+                    {plot}
+                </span>
+                <Button
+                    component="label"
+                    variant="outlined"
+                    startIcon={<UploadFileIcon />}
+                    sx={{ marginRight: "1rem" }}
+                >
+                    Upload CSV
+                    <input type="file" accept=".csv" hidden onChange={handleFileUpload} />
+                </Button> */}
