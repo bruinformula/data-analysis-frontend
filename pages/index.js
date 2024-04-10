@@ -11,6 +11,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import parse from 'html-react-parser';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { TextField, Select, InputLabel, MenuItem, FormControl} from '@mui/material';
+import GraphComp from '../components/graphcomp';
 
 
 
@@ -152,8 +153,8 @@ export default function Home()
 
             <main>
                 <div className="container text-center">
-                    <div className="row">
-                        <div className="col">
+                    <div className="row" style={{ minHeight: '100vh' }}>
+                        <div className="col" style={{ maxWidth: '30vh' }}>
                             <LogSelector onSelect={onLogSelect} dataTree={dataTree}/>
                             <Button
                                 component="label"
@@ -171,7 +172,7 @@ export default function Home()
                             />
                             </Button>
                         </div>
-                        <div className="col">
+                        <div className="col" style={{ maxWidth: '20vh' }}>
                             <TextField
                                 label="Enter Title"
                                 variant="outlined"
@@ -217,7 +218,7 @@ export default function Home()
                             <Button variant="outlined"> Graph </Button>
                         </div>
                         <div className="col">
-                            {plot}
+                            <GraphComp plotData={plot} />
                             <Button variant="outlined"> Download Graph </Button>
                         </div>
                     </div>
