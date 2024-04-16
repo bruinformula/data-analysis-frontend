@@ -15,3 +15,5 @@ how to delete your local branch
 1. checkout to another branch (not the one you want to delete)
 2. git stash
 3. git branch -d [branch name]
+
+git pull: pulls from the origin (the website)
